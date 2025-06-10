@@ -1,4 +1,11 @@
+# Terraform provider and state files
 .terraform/
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
+
+# IDE or OS specific
+*.log
+*.exe
+.DS_Store
+*.swp
