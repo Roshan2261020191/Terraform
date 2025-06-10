@@ -1,8 +1,4 @@
 .terraform/
 *.tfstate
-*.tfstate.*
-*.log
-*.exe
-*.bak
-*.zip
-*.tar.gz
+*.tfstate.backup
+.terraform.lock.hcl
