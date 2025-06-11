@@ -1,11 +1,16 @@
-# Terraform provider and state files
+# Terraform files to ignore
 .terraform/
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
 
-# IDE or OS specific
+# Logs and temp
 *.log
 *.exe
-.DS_Store
+*.zip
+
+# Editor and OS files
+.vscode/
 *.swp
+.DS_Store
+Thumbs.db
