@@ -34,3 +34,51 @@ resource "aws_subnet" "private" {
     Name = "private-subnet"
   }
 }
+
+#Internet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "internet gateway"
+  }
+}
+
+#Route table creation and internet gateway connection for public subnet
+resource "aws_route_table" "public_rtb" {
+  vpc_id = aws_vpc.main.id  # Use your existing VPC
+
+  route {
+    cidr_block = "0.0.0.0/0"               # All outbound traffic
+    gateway_id = aws_internet_gateway.igw.id  # Use your existing IGW
+  }
+
+  tags = {
+    Name = "public-rt"
+  }
+}
+
+#Associate Route Table with public Subnet
+resource "aws_route_table_association" "public_subnet_association" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public_rtb.id
+
+  depends_on = [aws_internet_gateway.igw]   # <-- this ensures IGW is created first
+}
+
+# Private Route Table
+resource "aws_route_table" "private_rtb" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "private-subnet-rt"
+  }
+}
+
+# Associate Private Subnet with Private Route Table
+resource "aws_route_table_association" "private_subnet_association" {
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.private_rtb.id
+}
+
+
