@@ -13,5 +13,29 @@ variable "availability_zones" {
   description = "List of 2 AZs for public and private subnets"
 }
 
+variable "sg" {
+  type = string
+}
+
+variable "inbound_rules" {
+  type = list(object({
+    from_port = number
+    to_port   = number
+    protocol  = string
+    cidr      = string
+    desc      = string
+  }))
+}
+
+variable "outbound_rules" {
+  type = list(object({
+    from_port = number
+    to_port   = number
+    protocol  = string
+    cidr      = string
+    desc      = string
+  }))
+}
+
 
 

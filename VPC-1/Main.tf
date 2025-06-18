@@ -81,4 +81,34 @@ resource "aws_route_table_association" "private_subnet_association" {
   route_table_id = aws_route_table.private_rtb.id
 }
 
+# dynamic AWS Security Group
+resource "aws_security_group" "sg" {
+  name        = var.sg
+  description = "Security group with dynamic rules"
+  vpc_id      = aws_vpc.main.id
+  tags = {
+    Name = var.sg
+  }
+}
 
+resource "aws_security_group_rule" "inbound" {
+  for_each          = { for idx, rule in var.inbound_rules : idx => rule }
+  type              = "ingress"
+  from_port         = each.value.from_port
+  to_port           = each.value.to_port
+  protocol          = each.value.protocol
+  cidr_blocks       = [each.value.cidr]
+  security_group_id = aws_security_group.sg.id
+  description       = each.value.desc
+}
+
+resource "aws_security_group_rule" "outbound" {
+  for_each          = { for idx, rule in var.outbound_rules : idx => rule }
+  type              = "egress"
+  from_port         = each.value.from_port
+  to_port           = each.value.to_port
+  protocol          = each.value.protocol
+  cidr_blocks       = [each.value.cidr]
+  security_group_id = aws_security_group.sg.id
+  description       = each.value.desc
+}
