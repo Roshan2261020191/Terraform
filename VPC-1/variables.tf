@@ -25,8 +25,7 @@ variable "inbound_rules" {
     cidr      = string
     desc      = string
   }))
-  default = []  # ✅ Now this is optional
-}
+  default = []  #  Important during module usage – allows module to work even if no rules are passed
 
 variable "outbound_rules" {
   type = list(object({
@@ -36,7 +35,7 @@ variable "outbound_rules" {
     cidr      = string
     desc      = string
   }))
-  default = []  # ✅ Optional too
+  default = []  # Important during module usage – allows module to work even if no rules are passed
 }
 
 
