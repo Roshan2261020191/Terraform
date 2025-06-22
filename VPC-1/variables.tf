@@ -26,7 +26,7 @@ variable "inbound_rules" {
     desc      = string
   }))
   default = []  #  Important during module usage – allows module to work even if no rules are passed
-
+}
 variable "outbound_rules" {
   type = list(object({
     from_port = number
