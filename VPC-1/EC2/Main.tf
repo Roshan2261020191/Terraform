@@ -20,12 +20,12 @@ resource "local_file" "private_key" {
 
 # Call VPC module from parent folder
 module "vpc" {
-  source ="git::https://github.com/Roshan2261020191/Terraform.git//VPC-1?ref=main"
+  source = "git::https://github.com/Roshan2261020191/Terraform.git//VPC-1?ref=main"  
 }
 
 # Launch EC2 instance
 resource "aws_instance" "public_instance" {
-   ami                         = var.ami
+   ami                        = var.ami
   instance_type               = var.instance_type
   subnet_id              = module.vpc.public_subnet_id
   vpc_security_group_ids = [module.vpc.sg_id]

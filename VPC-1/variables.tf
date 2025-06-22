@@ -25,6 +25,7 @@ variable "inbound_rules" {
     cidr      = string
     desc      = string
   }))
+  default = []  # ✅ Now this is optional
 }
 
 variable "outbound_rules" {
@@ -35,6 +36,7 @@ variable "outbound_rules" {
     cidr      = string
     desc      = string
   }))
+  default = []  # ✅ Optional too
 }
 
 
