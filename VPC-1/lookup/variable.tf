@@ -1,7 +1,7 @@
-variable "aws_region" {
+/*variable "aws_region" {
   description = "The AWS region to use"
   type        = string
-}
+}*/
 
 variable "vpc_id" {
   description = "ID of the existing VPC"
