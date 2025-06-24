@@ -1,15 +1,35 @@
-variable "ami" {
+variable "aws_region" {
+  description = "AWS region to deploy resources"
   type        = string
+}
+
+variable "ami" {
   description = "AMI ID for the EC2 instance"
+  type        = string
 }
 
 variable "instance_type" {
+  description = "EC2 instance type"
   type        = string
-  description = "Instance type for the EC2 instance"
+  default     = "t3.micro"
 }
 
-variable "key_name" {
-  description = "Name of the SSH key pair"
+variable "vpc_id" {
+  description = "ID of existing VPC"
   type        = string
-  default     = "terraform-ec2-key"
+}
+
+variable "public_subnet_id" {
+  description = "ID of existing public subnet"
+  type        = string
+}
+
+variable "private_subnet_id" {
+  description = "ID of existing private subnet"
+  type        = string
+}
+
+variable "security_group_id" {
+  description = "ID of existing security group"
+  type        = string
 }
