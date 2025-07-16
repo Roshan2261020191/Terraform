@@ -39,4 +39,31 @@ variable "outbound_rules" {
 }
 
 
+#privet sg
+variable "private_sg_name" {
+  description = "Name of the private security group"
+  type        = string
+}
+
+variable "private_inbound_rules" {
+  description = "Inbound rules for private SG"
+  type = list(object({
+    from_port = number
+    to_port   = number
+    protocol  = string
+    source_sg = string
+    desc      = string
+  }))
+}
+
+variable "private_outbound_rules" {
+  description = "Outbound rules for private SG"
+  type = list(object({
+    from_port = number
+    to_port   = number
+    protocol  = string
+    cidr      = string
+    desc      = string
+  }))
+}
 

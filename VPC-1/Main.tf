@@ -81,7 +81,7 @@ resource "aws_route_table_association" "private_subnet_association" {
   route_table_id = aws_route_table.private_rtb.id
 }
 
-# dynamic AWS Security Group
+# dynamic AWS Security Group for public ec2
 resource "aws_security_group" "sg" {
   name        = var.sg
   description = "Security group with dynamic rules"
@@ -110,5 +110,41 @@ resource "aws_security_group_rule" "outbound" {
   protocol          = each.value.protocol
   cidr_blocks       = [each.value.cidr]
   security_group_id = aws_security_group.sg.id
+  description       = each.value.desc
+}
+
+
+# dynamic AWS Security Group for privet ec2
+resource "aws_security_group" "private_sg" {
+  name        = var.private_sg_name
+  description = "Security group for private EC2"
+  vpc_id      = aws_vpc.main.id
+
+  tags = {
+    Name = var.private_sg_name
+  }
+}
+
+resource "aws_security_group_rule" "private_inbound" {
+  for_each = { for idx, rule in var.private_inbound_rules : idx => rule }
+
+  type                     = "ingress"
+  from_port                = each.value.from_port
+  to_port                  = each.value.to_port
+  protocol                 = each.value.protocol
+  source_security_group_id = each.value.source_sg
+  security_group_id        = aws_security_group.private_sg.id
+  description              = each.value.desc
+}
+
+resource "aws_security_group_rule" "private_outbound" {
+  for_each = { for idx, rule in var.private_outbound_rules : idx => rule }
+
+  type              = "egress"
+  from_port         = each.value.from_port
+  to_port           = each.value.to_port
+  protocol          = each.value.protocol
+  cidr_blocks       = [each.value.cidr]
+  security_group_id = aws_security_group.private_sg.id
   description       = each.value.desc
 }
