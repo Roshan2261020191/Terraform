@@ -18,6 +18,11 @@ output "security_group_id" {
   value       = aws_security_group.sg.id
 }
 
+output "private_sg_name_id" {
+  description = "ID of the security group created"
+  value       = aws_security_group.private_sg.id
+}
+
 output "aws_region" {
   description = "AWS region used in this module"
   value       = var.aws_region
