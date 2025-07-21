@@ -116,12 +116,12 @@ resource "aws_security_group_rule" "outbound" {
 
 # dynamic AWS Security Group for privet ec2
 resource "aws_security_group" "private_sg" {
-  name        = var.private_sg_name
+  name        = var.private_sg
   description = "Security group for private EC2"
   vpc_id      = aws_vpc.main.id
 
   tags = {
-    Name = var.private_sg_name
+    Name = var.private_sg
   }
 }
 

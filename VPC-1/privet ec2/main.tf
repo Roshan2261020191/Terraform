@@ -10,7 +10,7 @@ resource "tls_private_key" "ssh_key" {
 
 # Create an AWS key pair using the public key
 resource "aws_key_pair" "generated_key" {
-  key_name   = "terraform-private-key"
+  key_name   = "private-key"
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
@@ -22,18 +22,20 @@ resource "local_file" "private_key" {
   directory_permission = "0700"
 }
 
-# Lookup module to fetch existing subnet and SG
+# Reference lookup module to fetch existing VPC/subnet/SG
 module "lookup" {
   source = "git::https://github.com/Roshan2261020191/Terraform.git//VPC-1/lookup?ref=main"
 
-  aws_region         = var.aws_region
   vpc_id             = var.vpc_id
   public_subnet_id   = var.public_subnet_id
   private_subnet_id  = var.private_subnet_id
-  security_group_id  = var.security_group_id
+  private_sg_name_id = var.private_sg_name_id  
+  security_group_id   = var.security_group_id  
 }
 
-# Launch EC2 instance in private subnet
+
+
+# Launch EC2 instance in existing private subnet
 resource "aws_instance" "private_instance" {
   ami                    = var.ami
   instance_type          = var.instance_type
@@ -46,7 +48,7 @@ resource "aws_instance" "private_instance" {
   }
 }
 
-# Output (will be null for private subnet unless NAT or public IP enabled)
+# Output (this will be null since it's a private subnet)
 output "instance_public_ip" {
   value       = aws_instance.private_instance.public_ip
   description = "Public IP of the EC2 instance (null in private subnet)"

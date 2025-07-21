@@ -40,7 +40,7 @@ variable "outbound_rules" {
 
 
 #privet sg
-variable "private_sg_name" {
+variable "private_sg" {
   description = "Name of the private security group"
   type        = string
 }
