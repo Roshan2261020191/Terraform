@@ -17,3 +17,6 @@ data "aws_subnet" "private" {
 data "aws_security_group" "sg" {
   id = var.security_group_id
 }
+data "aws_security_group" "private_sg_name" {
+  id = var.private_sg_name_id
+}

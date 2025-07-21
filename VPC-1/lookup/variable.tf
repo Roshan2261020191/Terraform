@@ -22,3 +22,8 @@ variable "security_group_id" {
   description = "ID of the existing security group"
   type        = string
 }
+
+variable "private_sg_name_id" {
+  description = "ID of the existing security group"
+  type        = string
+}
